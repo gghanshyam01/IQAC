@@ -1,7 +1,11 @@
 var express = require('express');
 var router = express.Router();
+var expressValidator = require('express-validator')
+
+router.use(expressValidator())
+
 var passport = require('passport');
-var localStrategy = require('passport-local'),Strategy;
+var localStrategy = require('passport-local'), Strategy;
 
 // Include models
 var User = require('../models/User');
@@ -9,11 +13,11 @@ var Student = require('../models/Student');
 var Faculty = require('../models/Faculty');
 
 /* GET users listing. */
-router.get('/signup', function(req, res, next) {
+router.get('/signup', function (req, res, next) {
   res.render('users/signup');
 });
 
-router.post('/signup', function(req, res, next) {
+router.post('/signup', function (req, res, next) {
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
   var email = req.body.email;
@@ -21,7 +25,7 @@ router.post('/signup', function(req, res, next) {
   var password = req.body.password;
   var repassword = req.body.repassword;
   var type = req.body.type;
-  var username = firstName + lastName;
+  var userName = firstName + lastName;
 
   // Input validation
   req.checkBody('firstName', 'First name is required').notEmpty();
@@ -34,7 +38,7 @@ router.post('/signup', function(req, res, next) {
   // Check errors
   var errors = req.validationErrors();
 
-  if(errors)  {
+  if (errors) {
     res.render('/signup', {
       errors: errors,
       firstName: firstName,
@@ -42,7 +46,7 @@ router.post('/signup', function(req, res, next) {
       ernumber: ernumber,
       email: email
     });
-  } else  {
+  } else {
     var newUser = new User({
       userName: userName,
       email: email,
@@ -50,24 +54,24 @@ router.post('/signup', function(req, res, next) {
       type: type,
       dateJoined: Date.now
     });
-    if(type == 'student') {
+    if (type == 'student') {
       var newStudent = new Student({
         firstName: firstName,
-        LastName:lastName,
+        LastName: lastName,
         userName: firstName + lastName,
         email: email
       });
-      User.registerStudent(newUser, newStudent, function(err, user)  {
+      User.registerStudent(newUser, newStudent, function (err, user) {
         console.log('Student Registered');
       });
-    } else if(type == 'faculty') {
+    } else if (type == 'faculty') {
       var newFaculty = new Faculty({
-      firstName: firstName,
-      LastName: lastName,
-      userName: firstName + lastName,
-      email: email
+        firstName: firstName,
+        LastName: lastName,
+        userName: firstName + lastName,
+        email: email
       });
-      User.registerFaculty(newUser, newFaculty, function(err, user)  {
+      User.registerFaculty(newUser, newFaculty, function (err, user) {
         console.log('Faculty Registered');
       });
     }

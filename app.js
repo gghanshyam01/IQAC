@@ -8,13 +8,22 @@ var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
-var localStrategy = require('passport-local'),Strategy;
+var localStrategy = require('passport-local').Strategy;
 async = require('async');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost/projectDevel');
+// mongoose.connect('mongodb://localhost/projectDevel');
+const pwd = 'G#@n$hyam@01';
+// mongoose.connect('mongodb://gghanshyam01:' + pwd + '@ds225442.mlab.com:25442/projectdevel');
+mongoose.connect('mongodb://gghanshyam01.@ds225442.mlab.com:25442/projectdevel', {
+  auth: {
+    user: 'gghanshyam01',
+    password: pwd
+  }
+}).then(res => console.log('Connected to mongodb'))
+  .catch(err => console.log('Error connected to mongo'));
 var db = mongoose.connection;
 
 var indexRouter = require('./routes/index');
@@ -25,7 +34,7 @@ var eventsRouter = require('./routes/events');
 var app = express();
 
 // view engine setup
-app.engine('handlebars', exphbs({defaultLayout: 'layout'}));
+app.engine('handlebars', exphbs({ defaultLayout: 'layout' }));
 app.set('view engine', 'handlebars');
 
 app.use(logger('dev'));
@@ -45,6 +54,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(flash());
+
 app.use('/', indexRouter);
 app.use('/events', eventsRouter);
 app.use('/contact', contactRouter);
@@ -53,14 +64,14 @@ app.use('/users', usersRouter);
 
 // Express validator
 app.use(expressValidator({
-  errorFormatter: function(param, msg, value)  {
+  errorFormatter: function (param, msg, value) {
     var namespace = param.split('.')
-    , root = namespace.shift()
-    , formParam = root;
+      , root = namespace.shift()
+      , formParam = root;
     while (namespace.length) {
       formParam += '[' + namespace.shift() + ']'
     }
-    return  {
+    return {
       param: formParam,
       msg: msg,
       value: value
@@ -68,22 +79,23 @@ app.use(expressValidator({
   }
 }));
 
-app.use(flash());
+
 
 // Global vars
-app.use(function(req, res, next)  {
+app.use(function (req, res, next) {
   res.locals.message = require('express-messages')(req, res);
 });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
+  console.log('From app.js', err.message);
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
@@ -94,6 +106,6 @@ app.use(function(err, req, res, next) {
 module.exports = app;
 
 
-app.listen(3000, () =>  {
+app.listen(3000, () => {
   console.log('App listening on port 3000');
 });

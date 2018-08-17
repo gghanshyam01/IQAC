@@ -43,7 +43,7 @@ module.exports.registerStudent = function(newUser, newStudent, callback) {
     bcrypt.hash(newUser.password, 15, function(err, hash)    {
         if(err) throw err;
         newUser.password = hash;
-        console.log('Student is regiestered');
+        console.log('Student is registered');
         async.parallel([newUser.save, newStudent.save], callback);
     });
 }
@@ -53,7 +53,7 @@ module.exports.registerFaculty = function(newUser, newFaculty, callback) {
     bcrypt.hash(newUser.password, 15, function(err, hash)    {
         if(err) throw err;
         newUser.password = hash;
-        console.log('Faculty is regiestered');
+        console.log('Faculty is registered');
         async.parallel([newUser.save, newFaculty.save], callback);
     });
 }

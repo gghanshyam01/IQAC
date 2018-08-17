@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
+var expressValidator = require('express-validator')
 
+router.use(expressValidator())
 var Event = require('../models/Event');
 var limit = 6;
 
