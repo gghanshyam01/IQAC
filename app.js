@@ -19,7 +19,7 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://gghanshyam01.@ds225442.mlab.com:25442/projectdevel', {
   auth: {
     user: 'gghanshyam01',
-    password: '<Enter your password>'
+    password: '<ur passwd>'
   }
 }).then(res => console.log('Connected to mongodb'))
   .catch(err => console.log('Error connected to mongo'));
@@ -105,6 +105,6 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 
-app.listen(3000, () => {
-  console.log('App listening on port 3000');
-});
+// app.listen(3000, () => {
+//   console.log('App listening on port 3000');
+// });

@@ -25,5 +25,8 @@
     "passport": "*",
     "passport-http": "*",
     "passport-local": "*"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.2.5"
   }
 }

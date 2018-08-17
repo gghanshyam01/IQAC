@@ -12,6 +12,8 @@ var User = require('../models/User');
 var Student = require('../models/Student');
 var Faculty = require('../models/Faculty');
 
+// console.log('Reg Func', regS)
+
 /* GET users listing. */
 router.get('/signup', function (req, res, next) {
   res.render('users/signup');
@@ -24,7 +26,8 @@ router.post('/signup', function (req, res, next) {
   var ernumber = req.body.ernumber;
   var password = req.body.password;
   var repassword = req.body.repassword;
-  var type = req.body.type;
+  // var type = req.body.type;
+  var type = 'student';
   var userName = firstName + lastName;
 
   // Input validation
@@ -54,6 +57,7 @@ router.post('/signup', function (req, res, next) {
       type: type,
       dateJoined: Date.now
     });
+    console.log("Type: ", type);
     if (type == 'student') {
       var newStudent = new Student({
         firstName: firstName,
@@ -61,9 +65,15 @@ router.post('/signup', function (req, res, next) {
         userName: firstName + lastName,
         email: email
       });
-      User.registerStudent(newUser, newStudent, function (err, user) {
-        console.log('Student Registered');
+      // User.registerStudent(newUser, newStudent, function (err, user) {
+      //   console.log('Student Registered', user);
+      // });
+
+      newStudent.save((err, user) => {
+        if (err) return console.log('Error Occurred: ', err);
+        console.log('Success: ', user);
       });
+
     } else if (type == 'faculty') {
       var newFaculty = new Faculty({
         firstName: firstName,
