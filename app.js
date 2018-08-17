@@ -15,12 +15,11 @@ var mongoose = require('mongoose');
 
 // MongoDB connection
 // mongoose.connect('mongodb://localhost/projectDevel');
-const pwd = 'G#@n$hyam@01';
 // mongoose.connect('mongodb://gghanshyam01:' + pwd + '@ds225442.mlab.com:25442/projectdevel');
 mongoose.connect('mongodb://gghanshyam01.@ds225442.mlab.com:25442/projectdevel', {
   auth: {
     user: 'gghanshyam01',
-    password: pwd
+    password: '<Enter your password>'
   }
 }).then(res => console.log('Connected to mongodb'))
   .catch(err => console.log('Error connected to mongo'));
