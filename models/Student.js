@@ -25,13 +25,13 @@ const studentSchema = mongoose.Schema({
 
 var Student = module.exports = mongoose.model('Student', studentSchema);
 
-// Fetch events
+// Fetch students
 module.exports.getStudent = function(callback, limit)   {
-    User.find(callback).limit(limit);
+    Student.find(callback).limit(limit);
 }
 
-// Fetch single event
-module.exports.getStudentByUsername = function(username, callback)    {
-    var query = {username: username};
-    User.find(query, callback);
+// Fetch single student
+module.exports.getStudentByUsername = function(userName, callback)    {
+    var query = {userName: userName};
+    Student.find(query, callback);
 }

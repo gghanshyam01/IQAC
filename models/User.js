@@ -27,14 +27,14 @@ const userSchema = mongoose.Schema({
 
 var User = module.exports = mongoose.model('User', userSchema);
 
-// Fetch events
+// Fetch users
 module.exports.getUsers = function(callback, limit)   {
     User.find(callback).limit(limit);
 }
 
-// Fetch single event
-module.exports.getUserByUsername = function(username, callback)    {
-    var query = {username: username};
+// Fetch single user
+module.exports.getUserByUsername = function(userName, callback)    {
+    var query = {userName: userName};
     User.find(query, callback);
 }
 
@@ -53,7 +53,7 @@ module.exports.registerFaculty = function(newUser, newFaculty, callback) {
     bcrypt.hash(newUser.password, 15, function(err, hash)    {
         if(err) throw err;
         newUser.password = hash;
-        console.log('Student is regiestered');
-        async.parallel([newFaculty.save, newStudent.save], callback);
+        console.log('Faculty is regiestered');
+        async.parallel([newUser.save, newFaculty.save], callback);
     });
 }

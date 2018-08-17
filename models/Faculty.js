@@ -25,13 +25,13 @@ const facultySchema = mongoose.Schema({
 
 var Faculty = module.exports = mongoose.model('Faculty', facultySchema);
 
-// Fetch events
+// Fetch faculty
 module.exports.getFaculty = function(callback, limit)   {
     User.find(callback).limit(limit);
 }
 
-// Fetch single event
-module.exports.getFacultyByUsername = function(username, callback)    {
-    var query = {username: username};
+// Fetch single faculty
+module.exports.getFacultyByUsername = function(userName, callback)    {
+    var query = {userName: userName};
     User.find(query, callback);
 }
