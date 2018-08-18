@@ -26,8 +26,10 @@ router.post('/signup', function (req, res, next) {
   var ernumber = req.body.ernumber;
   var password = req.body.password;
   var repassword = req.body.repassword;
-  // var type = req.body.type;
-  var type = 'student';
+  var type = req.body.type;
+  console.log('type: ', req.body.type);
+
+  // var type = 'student';
   var userName = firstName + lastName;
 
   // Input validation
@@ -42,7 +44,7 @@ router.post('/signup', function (req, res, next) {
   var errors = req.validationErrors();
 
   if (errors) {
-    res.render('/signup', {
+    res.render('users/signup', {
       errors: errors,
       firstName: firstName,
       lastName: lastName,
@@ -55,10 +57,9 @@ router.post('/signup', function (req, res, next) {
       email: email,
       password: password,
       type: type,
-      dateJoined: Date.now
+      dateJoined: Date.now()
     });
-    console.log("Type: ", type);
-    if (type == 'student') {
+    if (type === 'student') {
       var newStudent = new Student({
         firstName: firstName,
         LastName: lastName,
@@ -70,11 +71,11 @@ router.post('/signup', function (req, res, next) {
       // });
 
       newStudent.save((err, user) => {
-        if (err) return console.log('Error Occurred: ', err);
+        if (err) return console.log('Error while saving: ', err);
         console.log('Success: ', user);
       });
 
-    } else if (type == 'faculty') {
+    } else if (type === 'faculty') {
       var newFaculty = new Faculty({
         firstName: firstName,
         LastName: lastName,

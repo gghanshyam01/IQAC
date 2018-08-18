@@ -12,18 +12,18 @@ var localStrategy = require('passport-local').Strategy;
 async = require('async');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
-
+const { mongoCredentials } = require('./configs/mlab.config');
 // MongoDB connection
 // mongoose.connect('mongodb://localhost/projectDevel');
 // mongoose.connect('mongodb://gghanshyam01:' + pwd + '@ds225442.mlab.com:25442/projectdevel');
+
 mongoose.connect('mongodb://gghanshyam01.@ds225442.mlab.com:25442/projectdevel', {
   auth: {
-    user: 'gghanshyam01',
-    password: '<ur passwd>'
+    user: mongoCredentials.user,
+    password: mongoCredentials.password
   }
 }).then(res => console.log('Connected to mongodb'))
-  .catch(err => console.log('Error connected to mongo'));
-var db = mongoose.connection;
+  .catch(err => console.log('Error connecting to mongo'));
 
 var indexRouter = require('./routes/index');
 var contactRouter = require('./routes/contact');
@@ -38,7 +38,7 @@ app.set('view engine', 'handlebars');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
